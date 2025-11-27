@@ -1,0 +1,228 @@
+# Archivo de configuración proyecto CxS Parte3. 
+path_insumos: "Insumos/"
+path_resultados: "Resultados/"
+
+Insumos:
+  driver_cliente:
+    nom_base: Driver_cliente.xlsx
+    nom_hoja: Drivers
+    cols_necesarias:
+      "Cod_cliente": "Cod_cliente"
+      "Cliente" : "Cliente"
+      "Nom_cliente" : "Nom_cliente"
+
+  Base_Gastos:
+    nom_base: Base_Gastos.xlsx
+    nom_hoja: BaseGastos
+    cols_base:
+     'NUMERO_CECO' : 'NUMERO_CECO'
+     'NOMBRE_CECO'  : 'NOMBRE_CECO' 
+     'OFICINA_VENTAS' : 'OFICINA_VENTAS'
+     'COD_CLIENTE' : 'COD_CLIENTE'
+     'NIT' : 'NIT'
+     'CANAL' : 'CANAL'
+     'SUB_CANAL' : 'SUB_CANAL'
+     'TIPOLOGIA' : 'TIPOLOGIA'
+     'TOTAL_GASTOS_CN' : 'TOTAL_GASTOS_CN'
+     'MES' : 'MES'
+     'Distribucion' : 'Distribucion'
+    cols_select : 
+     - "NUMERO_CECO"
+     - "NOMBRE_CECO"
+     - "TOTAL_GASTOS_CN"
+     - "Concatenada"
+     - "Distribucion"
+    cols_reemplazar:
+     nom_col: TIPOLOGIA
+     dict_reemp : 
+      "Drog AU de Cadenas" : "Cadena de Droguerias"
+      "Merc Saludab Cad Reg" : "Natural"
+      "Drog Mostrad. Caden" : "Cadena de Droguerias"
+      "Distrb. Farmaceutico" : "Distrb. Farmaceutico"
+      "Non Food" : "Non Food"
+    cols_agrup: 
+      group: 
+       - "NUMERO_CECO"
+       - "NOMBRE_CECO"
+       - "OFICINA_VENTAS"
+       - "COD_CLIENTE"
+       - "NIT"
+       - "CANAL"
+       - "SUB_CANAL"
+       - "TIPOLOGIA"
+       - "MES"
+       - "Distribucion"
+      sum: 
+       - TOTAL_GASTOS_CN
+    cols_rename_finales:
+     "MES": "MES"
+     "Sector": "SECTOR"
+     "Canal" : "CANAL"
+     "Canal_Trans": "CANAL_TRANS"
+     "Subcanal": "SUB_CANAL"
+     "Subcanal_Trans": "SUB_CANAL_TRANS"
+     "oficina_ventas": "OFICINA_VENTAS"
+     "Formato_NIF": "NIT"
+     "Formato": "FORMATO"
+     "Segmento_Agrup": "TIPOLOGIA"
+     "NUMERO_CECO": "NUMERO_CECO"
+     "NOMBRE_CECO": "NOMBRE_CECO"
+     "Cod_Cliente" : "COD_CLIENTE"
+     "Cliente": "CLIENTE"
+     "Distribucion_Gastos": "TOTAL_GASTOS_CN"
+
+    orden_final_cols:
+      - "NUMERO_CECO"
+      - "NOMBRE_CECO"
+      - "MES"
+      - "OFICINA_VENTAS"
+      - "CANAL"
+      - "SUB_CANAL"
+      - "TIPOLOGIA"
+      - "NIT"
+      - "AGRUPACION"
+      - "FORMATO"
+      - "SECTOR"
+      - "COD_CLIENTE"
+      - "CLIENTE"
+      - "TOTAL_GASTOS_CN"
+      - "SUB_CANAL_TRANS"
+      - "CANAL_TRANS"
+      - "TIPO"
+      
+    dict_meses:
+      "ENE": "ENE 2024"
+      "FEB": "FEB 2024"
+      "MAR": "MAR 2024"
+      "ABR": "ABR 2024"
+      "MAY": "MAY 2024"
+      "JUN": "JUN 2024"
+      "JUL": "JUL 2024"
+      "AGO": "AGO 2024"
+      "SEP": "SEP 2024"
+      "OCT": "OCT 2024"
+      "NOV": "NOV 2024"
+      "DIC": "DIC 2024"
+  
+
+  db_cxs_porcentajes:
+    uri: 'sqlite:///Insumos/Insumo_cxs_dinamico.db'
+
+    cols_base: 
+     "Oficina_ventas": "Oficina_ventas"
+     "Mes": "Mes"
+     "Canal": "Canal"
+     "Canal_Trans":  "Canal_Trans"
+     "Subcanal": "Subcanal"
+     "Subcanal_Trans":  "Subcanal_Trans"
+     "Segmento_Agrup": "Segmento_Agrup"
+     "Sector": "Sector"
+     "Formato" : "Formato"
+     "Formato_NIF": "Formato_NIF"
+     "Cod_Cliente" : COD_CLIENTE
+     "Cliente": "Cliente"
+     "Total_Gastos_CN" : "Total_Gastos_CN"
+
+    cols_to_rename: 
+      "Oficina_ventas": "oficina_ventas"
+      "Mes": "MES"
+      
+
+    dict_duplicados:
+      "1" : 
+       cols_rename : {}
+      "2" : 
+       cols_rename : {"OFICINA_VENTAS": "oficina_ventas"}
+      "3" :
+       cols_rename : {"OFICINA_VENTAS": "oficina_ventas", "CANAL": "Canal"}
+      "4" :  
+       cols_rename : {"OFICINA_VENTAS": "oficina_ventas", "CANAL": "Canal", "SUB_CANAL" : "Subcanal"}
+      "5" :  
+       cols_rename : {"OFICINA_VENTAS": "oficina_ventas" ,"CANAL": "Canal", "SUB_CANAL" : "Subcanal", "TIPOLOGIA" : "Segmento_Agrup"}
+      "6" :  
+       cols_rename : {"CANAL": "Canal"}
+      "7" :  
+       cols_rename : {"CANAL": "Canal", "SUB_CANAL" : "Subcanal"}
+      "8" :  
+       cols_rename : {"CANAL": "Canal", "SUB_CANAL" : "Subcanal", "TIPOLOGIA" : "Segmento_Agrup"}
+      "9" :  
+       cols_rename : {"CANAL": "Canal", "NIT": "Formato_NIF"}
+      "11" : 
+       cols_rename : {"CANAL": "Canal", "SUB_CANAL" : "Subcanal", "TIPOLOGIA" : "Segmento_Agrup", "NIT": "Formato_NIF"}
+      "13" : 
+       cols_rename : {"OFICINA_VENTAS": "oficina_ventas", "CANAL": "Canal", "NIT": "Formato_NIF"}
+      "14" : 
+       cols_rename : {"OFICINA_VENTAS": "oficina_ventas","CANAL": "Canal", "SUB_CANAL" : "Subcanal", "NIT": "Formato_NIF"}
+      "15" : 
+       cols_rename : {"OFICINA_VENTAS": "oficina_ventas", "CANAL": "Canal", "SUB_CANAL" : "Subcanal", "TIPOLOGIA" : "Segmento_Agrup", "NIT": "Formato_NIF"}
+ 
+    
+    dict_casos : {
+     "1": ["MES"],
+     "2": ["MES", "oficina_ventas"],
+     "3": ["MES", "oficina_ventas", "Canal"],
+     "4": ["MES", "oficina_ventas", "Canal", "Subcanal"],
+     "5": ["MES", "oficina_ventas", "Canal", "Subcanal", "Segmento_Agrup"],
+     "6": ["MES", "Canal"],
+     "7": ["MES", "Canal", "Subcanal"],
+     "8": ["MES", "Canal", "Subcanal", "Segmento_Agrup"],
+     "9": ["MES", "Canal", "Formato_NIF"],
+     "11": ["MES", "Canal", "Subcanal", "Segmento_Agrup", "Formato_NIF"],
+     "13": ["MES", "oficina_ventas", "Canal", "Formato_NIF"],
+     "15": [
+         "MES",
+         "oficina_ventas",
+         "Canal",
+         "Subcanal",
+         "Segmento_Agrup",
+         "Formato_NIF",
+     ],
+    }
+        
+    query:
+      select: 'Oficina_ventas, Mes, Canal, Canal_Trans, Subcanal, Subcanal_Trans, Segmento_Agrup, Sector, Formato, Formato_NIF, Cliente, SUM(Total_Gastos_CN) AS Total_Gastos_CN'
+      from: 'insumo_cxs'
+      where:
+        tipo: 'Real'
+        centro_costo: '#/#'
+        oficina_ventas: ['R Bogota Norte', 'R Altillano', 'R Barranquilla', 'R Bucaramanga', 'R Cali', 'R Cartagena', 'R Ibague', 'R Medellin', 'R Pereira']
+        sector: ['Cafe', 'Carnico', 'Pastas', 'Chocolates', 'Galletas', 'Distribuidos', 'Emprendimientos', 'Culinarios']
+      group_by: 'Oficina_ventas, Mes, Canal, Canal_Trans, Subcanal, Subcanal_Trans, Segmento_Agrup, Sector, Formato, Formato_NIF, Cliente'
+      order_by: 'Subcanal'
+
+    meses_duplicar_distribucion:
+     "ENE 2024" : "ENE 2024"
+     "FEB 2024" : "ENE 2024"
+     "MAR 2024" : "ENE 2024"
+     "ABR 2024" : "ENE 2024"
+     "MAY 2024" : "ENE 2024"
+     "JUN 2024" : "ENE 2024"
+     "JUL 2024" : "ENE 2024"
+     "AGO 2024" : "ENE 2024"
+     "SEP 2024" : "ENE 2024"
+     "OCT 2024" : "ENE 2024"
+     "NOV 2024" : "ENE 2024"
+     "DIC 2024" : "ENE 2024"
+
+dict_constantes: 
+  "Canal" : "Canal"
+  "Subcanal" : "Subcanal"
+  "Distribucion" : "Distribucion"
+  "Segmento_Agrup" : "Segmento_Agrup"
+  "Otros Canales" : "Otros Canales"
+  "Sector" : "Sector"
+  "Sector_base" : "Sector_base"
+  "Cliente": "Cliente"
+  "Agente comercial": "Agente comercial"
+  "oficina_ventas" : "oficina_ventas"
+  "COD_CLIENTE" : "COD_CLIENTE" 
+  "Porcentaje_Gastos" : "Porcentaje_Gastos"
+  "Total_Gastos_CN" : "Total_Gastos_CN"
+  "Distribucion_Gastos" : "Distribucion_Gastos"
+  "Concatenada" : "Concatenada"
+  "NUMERO_CECO" : "NUMERO_CECO"
+  "Cod_Cliente" : "Cod_Cliente"
+  "TOTAL_GASTOS_CN" : "TOTAL_GASTOS_CN"
+  "Sin asignar": "Sin asignar"
+  
+
